@@ -4,7 +4,7 @@ import numpy as np
 
 import config as cnf
 
-INPUT_FILE = 'C:/Users/qradj/OneDrive - AIMTEC a. s/Desktop/zsi_sp1./veta.wav'
+INPUT_FILE = 'veta.wav'
 
 rate, data = sc.wavfile.read(INPUT_FILE)
 
