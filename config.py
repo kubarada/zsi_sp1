@@ -22,7 +22,7 @@ def lowpass(data, sample_rate, cutoff_freq, filter_order, title):
     # Generate the filter coefficients using the firwin function
     nyquist_rate = sample_rate / 2
     filter_coeffs = firwin(filter_order, cutoff_freq/nyquist_rate)
-
+    file_name = 'plots/lp_' + str(filter_order) + '.eps'
 
     # Apply the filter to the test signal
     filtered_signal = lfilter(filter_coeffs, 1, data)
@@ -33,9 +33,10 @@ def lowpass(data, sample_rate, cutoff_freq, filter_order, title):
     plt.title(title)
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [s]')
+    plt.savefig(file_name, format='eps', dpi = 50)
     plt.show()
-    file_name = 'plots/lp_' + str(filter_order) + '.eps'
-    plt.savefig(file_name, format='eps', dpi=150)
+
+
 
 
 
@@ -64,5 +65,5 @@ def bandpass(data, sample_rate, cutoff_freq1, cutoff_freq2, filter_order, title)
     plt.title(title)
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [s]')
+    plt.savefig(file_name, format='eps', dpi = 50)
     plt.show()
-    plt.savefig(file_name, format='eps', dpi=150)
