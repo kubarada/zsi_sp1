@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from scipy.signal import firwin, lfilter
+from scipy.signal import firwin, lfilter, filtfilt
 import numpy as np
 
 
@@ -17,7 +17,7 @@ def plot(x, y, legend = ['x', 'y'], lim = ['', '', '', ''], title = 'Doplnit tit
         plt.ylim(float(lim[2]), float(lim[3]))
     plt.show()
 
-def lowpass(data, sample_rate, cutoff_freq, filter_order):
+def lowpass(data, sample_rate, cutoff_freq, filter_order, title):
 
     # Generate the filter coefficients using the firwin function
     nyquist_rate = sample_rate / 2
@@ -30,7 +30,39 @@ def lowpass(data, sample_rate, cutoff_freq, filter_order):
     # Plot the original and filtered signals
     plt.figure(figsize=(15, 5))
     plt.specgram(filtered_signal, Fs=sample_rate, vmin=-20, vmax=50)
-    plt.title('Spektogram')
+    plt.title(title)
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [s]')
     plt.show()
+    file_name = 'plots/lp_' + str(filter_order) + '.eps'
+    plt.savefig(file_name, format='eps', dpi=150)
+
+
+
+
+def bandpass(data, sample_rate, cutoff_freq1, cutoff_freq2, filter_order, title):
+
+    # Generate the filter coefficients using the firwin function
+    cutoff_freq3 = [cutoff_freq1[0] / (0.5*sample_rate), cutoff_freq1[1] / (0.5*sample_rate)]
+    cutoff_freq4 = [cutoff_freq2[0] / (0.5 * sample_rate), cutoff_freq2[1] / (0.5 * sample_rate)]
+    num_taps = filter_order
+    b1 = firwin(num_taps, cutoff_freq3, pass_zero=False)
+    b2 = firwin(num_taps, cutoff_freq4, pass_zero=False)
+
+    # Apply the filter to the data
+    filtered_signal1 = filtfilt(b1, 1, data)
+    filtered_signal2 = filtfilt(b2, 1, data)
+    n_transient = num_taps - 1
+    filtered_signal1 = filtered_signal1[n_transient:]
+    filtered_signal2 = filtered_signal2[n_transient:]
+    filtered_signal = filtered_signal1 + filtered_signal2
+
+    file_name = 'plots/bp_' + str(filter_order) + '.eps'
+    # Plot the original and filtered signals
+    plt.figure(figsize=(15, 5))
+    plt.specgram(filtered_signal, Fs=sample_rate, vmin=-20, vmax=50)
+    plt.title(title)
+    plt.ylabel('Frequency [Hz]')
+    plt.xlabel('Time [s]')
+    plt.show()
+    plt.savefig(file_name, format='eps', dpi=150)

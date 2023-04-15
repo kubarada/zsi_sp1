@@ -1,11 +1,18 @@
 import scipy.io as sc
 import matplotlib.pyplot as plt
 import numpy as np
+from pydub import AudioSegment
+from pydub.playback import play
+
 
 import config as cnf
 
-INPUT_FILE = 'C:/Users/qradj/OneDrive - AIMTEC a. s/Desktop/zsi_sp1./veta.wav'
+INPUT_FILE = 'veta.wav'
 
+# import required module
+from playsound import playsound
+
+# for playing note.wav file
 rate, data = sc.wavfile.read(INPUT_FILE)
 
 # Compute the power spectrum of the audio signal
@@ -20,15 +27,29 @@ print('Lenght of audiofile: ' + str(t[-1]) + ' s')
 # ploting audio wave
 cnf.plot(t, data, ['Time [s]', 'Signal value'], lim = [0, t[-1], -31000, 25000],  title = 'Časový vývoj signálu')
 
-# ploting the spectrum of audio
-cnf.plot(freqs, spec, ["Frequency [Hz]", "Magnitude [dB]"], lim = [0, 22000, 0, 460000], title = 'Spektrum signálu')
-
+# ploting spectogram
 plt.figure(figsize=(15, 5))
 plt.specgram(data, Fs=rate, vmin=-20, vmax=50)
-plt.title('Spektogram')
+plt.title('Spektrogram')
 plt.ylabel('Frequency [Hz]')
 plt.xlabel('Time [s]')
 plt.show()
 
+# fir lowpass
+cnf.lowpass(data, sample_rate = rate, cutoff_freq = 5700, filter_order=170, title = 'Spectrogram - filter order = 170')
+cnf.lowpass(data, sample_rate = rate, cutoff_freq = 5700, filter_order=190,title = 'Spectrogram - filter order = 190')
+cnf.lowpass(data, sample_rate = rate, cutoff_freq = 5700, filter_order=210,title = 'Spectrogram - filter order = 210')
+cnf.lowpass(data, sample_rate = rate, cutoff_freq = 5700, filter_order=230,title = 'Spectrogram - filter order = 230')
+cnf.lowpass(data, sample_rate = rate, cutoff_freq = 5700, filter_order=250,title = 'Spectrogram - filter order = 250')
 
-cnf.lowpass(data, sample_rate = rate, cutoff_freq = 5600, filter_order=170) 
+# fir bandpass
+cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6200, 19000],filter_order = 150,  title = 'Spectrogram - filter order = 150')
+cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6200, 19000],filter_order = 175,  title = 'Spectrogram - filter order = 175')
+cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6200, 19000],filter_order = 200,  title = 'Spectrogram - filter order = 200')
+cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6200, 19000],filter_order = 250,  title = 'Spectrogram - filter order = 250')
+cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6200, 19000],filter_order = 300,  title = 'Spectrogram - filter order = 300')
+
+
+
+
+
