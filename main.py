@@ -49,7 +49,12 @@ cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6
 cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6200, 19000],filter_order = 250,  title = 'Spectrogram - filter order = 250')
 cnf.bandpass(data, sample_rate = rate, cutoff_freq1= [1,5800], cutoff_freq2 = [6200, 19000],filter_order = 300,  title = 'Spectrogram - filter order = 300')
 
-
+# iir lowpass butterwoth
+cnf.irbutter(data, sample_rate = rate, cutoff_freq1= 5700,filter_order = 5,  title = 'Spectrogram - filter order = 5')
+cnf.irbutter(data, sample_rate = rate, cutoff_freq1= 5700,filter_order = 10,  title = 'Spectrogram - filter order = 10')
+cnf.irbutter(data, sample_rate = rate, cutoff_freq1= 5700,filter_order = 15,  title = 'Spectrogram - filter order = 15')
+cnf.irbutter(data, sample_rate = rate, cutoff_freq1= 5700,filter_order = 20,  title = 'Spectrogram - filter order = 20')
+cnf.irbutter(data, sample_rate = rate, cutoff_freq1= 5700,filter_order = 25,  title = 'Spectrogram - filter order = 25')
 
 
 

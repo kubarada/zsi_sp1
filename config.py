@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from scipy.signal import firwin, lfilter, filtfilt
+from scipy.signal import firwin, lfilter, filtfilt, butter
 import numpy as np
 
 
@@ -67,3 +67,22 @@ def bandpass(data, sample_rate, cutoff_freq1, cutoff_freq2, filter_order, title)
     plt.xlabel('Time [s]')
     plt.savefig(file_name, format='eps', dpi = 50)
     plt.show()
+
+
+def irbutter(data, sample_rate, cutoff_freq1, filter_order, title):
+
+
+    b, a = butter(filter_order, cutoff_freq1 / (sample_rate / 2), btype='lowpass', analog=False)
+
+    # Apply filter to signal
+    filtered_signal = filtfilt(b, a, data)
+    file_name = 'plots/butt_' + str(filter_order) + '.eps'
+    # Plot the original and filtered signals
+    plt.figure(figsize=(15, 5))
+    plt.specgram(filtered_signal, Fs=sample_rate, vmin=-20, vmax=50)
+    plt.title(title)
+    plt.ylabel('Frequency [Hz]')
+    plt.xlabel('Time [s]')
+    plt.savefig(file_name, format='eps', dpi = 50)
+    plt.show()
+
